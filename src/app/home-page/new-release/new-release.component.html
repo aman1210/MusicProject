@@ -1,0 +1,19 @@
+<div class="container">
+  <h4 align="center">Newly Added</h4>
+  <div class="row">
+    <div
+      class="col-lg-3"
+      *ngFor="let song of songs | reverse; let i = index"
+      (click)="onSelect(song)"
+    >
+      <div class="card">
+        <img
+          src="{{ song.albumArt }}"
+          class="card-img-top img-responsive"
+          align="center"
+        />
+        <h6 class="card-title" align="center">{{ song.name }}</h6>
+      </div>
+    </div>
+  </div>
+</div>

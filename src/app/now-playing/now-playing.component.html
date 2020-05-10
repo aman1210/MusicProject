@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <mat-toolbar color="primary" class="main-toolbar">
+        <span>Audio Player</span>
+        <span class="spacer"></span>
+        <!-- <span class="toolbar-btn" *ngIf="!auth.authenticated" (click)="auth.login()">LOGIN </span>
+        <span class="toolbar-btn" *ngIf="auth.authenticated" (click)="auth.logout()">LOGOUT</span>
+        <span class="toolbar-btn" *ngIf="auth.authenticated" routerLink="/profile">PROFILE</span> -->
+      </mat-toolbar>
+
+      <div class="content">
+        <div class="logo">
+          <mat-icon *ngIf="!songDetail.albumArt">music_note</mat-icon>
+          <mat-icon *ngIf="songDetail.albumArt"
+            ><img
+              src="{{ songDetail.albumArt }}"
+              class="img-responsive"
+              height="100px"
+          /></mat-icon>
+          <div *ngIf="!songDetail.name">Audio Player</div>
+          <div *ngIf="songDetail.name">{{ songDetail.name }}</div>
+        </div>
+      </div>
+
+      <div class="media-footer">
+        <mat-toolbar color="primary">
+          <mat-toolbar-row>
+            {{ state?.readableCurrentTime }}
+            <mat-slider
+              class="time-slider"
+              min="0"
+              [max]="state?.duration"
+              step="1"
+              [value]="state?.currentTime"
+              [disabled]="state?.error || currentFile.index === undefined"
+              (input)="onSliderChangeEnd($event)"
+            >
+            </mat-slider>
+            {{ state?.readableDuration }}
+          </mat-toolbar-row>
+
+          <mat-toolbar-row class="media-action-bar">
+            <button
+              mat-button
+              [disabled]="isFirstPlaying()"
+              (click)="previous()"
+            >
+              <mat-icon mat-list-icon>skip_previous</mat-icon>
+            </button>
+
+            <button
+              mat-button
+              [disabled]="state?.error"
+              *ngIf="!state?.playing"
+              (click)="play()"
+            >
+              <mat-icon mat-list-icon>play_circle_filled</mat-icon>
+            </button>
+
+            <button mat-button *ngIf="state?.playing" (click)="pause()">
+              <mat-icon mat-list-icon>pause</mat-icon>
+            </button>
+
+            <button mat-button [disabled]="isLastPlaying()" (click)="next()">
+              <mat-icon mat-list-icon>skip_next</mat-icon>
+            </button>
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <div class="content">
+          <mat-list color="primary">
+            <h3 mat-subheader>Top Charts</h3>
+            <mat-list-item
+              *ngFor="let song of songs; let i = index"
+              (click)="openSong(song, i)"
+            >
+              <mat-icon color="primary" mat-list-icon
+                ><img src="{{ song.albumArt }}" height="35px"
+              /></mat-icon>
+              <h4 mat-line>{{ song.name }}</h4>
+              <h5 mat-line>by {{ song.artist }}</h5>
+              <mat-icon
+                color="primary"
+                *ngIf="currentFile.index === i && !state?.error"
+                >volume_up</mat-icon
+              >
+              <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

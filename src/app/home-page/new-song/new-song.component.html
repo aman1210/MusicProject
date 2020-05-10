@@ -1,0 +1,39 @@
+<div class="container">
+  <a routerLink="../"><button class="btn btn-outline-danger">Cancel</button></a>
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+      <label for="Name">Name</label>
+      <input type="text" class="form-control" name="name" ngModel required />
+    </div>
+    <div class="form-group">
+      <label for="Artist">Artist</label>
+      <input type="text" class="form-control" name="artist" ngModel required />
+    </div>
+    <div class="form-group">
+      <label for="Album">Album</label>
+      <input type="text" class="form-control" name="album" ngModel required />
+    </div>
+    <div class="form-group">
+      <label for="AlbumArt">Album Art</label>
+      <input
+        type="text"
+        class="form-control"
+        name="albumArt"
+        [(ngModel)]="albumArt"
+        required
+        required
+      />
+    </div>
+    <div class="row" align="center">
+      <div class="col-xs-12"></div>
+      <img src="{{ albumArt }}" class="img-fluid img-thumbnail" />
+    </div>
+    <div class="form-group">
+      <label for="url">URL for the Song</label>
+      <input type="text" class="form-control" name="url" ngModel required />
+    </div>
+    <button type="submit" class="btn btn-outline-primary" [disabled]="!f.valid">
+      Add
+    </button>
+  </form>
+</div>

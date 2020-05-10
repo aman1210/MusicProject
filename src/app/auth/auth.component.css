@@ -1,0 +1,49 @@
+.authpage {
+  min-height: 100vh;
+  width: 100%;
+  background: url("../../assets/john-matychuk-gUK3lA3K7Yo-unsplash.jpg")
+    no-repeat center center fixed;
+  background-size: cover;
+  /* opacity: 0.65; */
+}
+@media (max-width: 800px) {
+  .authpage {
+    background-image: url("https://images.unsplash.com/photo-1484876065684-b683cf17d276?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80");
+    background-size: 100vw;
+  }
+}
+
+.form {
+  width: 350px;
+  margin-top: -900px;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.75),
+    rgba(128, 128, 128, 0.75)
+  );
+  padding: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 5px;
+  animation: opening 1s forwards;
+}
+@keyframes opening {
+  from {
+    margin-top: -900px;
+  }
+  to {
+    margin-top: 200px;
+  }
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+  box-shadow: 0px 0px 5px red;
+}
+
+input.ng-valid {
+  border: 1px solid green;
+  box-shadow: 0px 0px 5px green;
+}

@@ -1,0 +1,16 @@
+.weekList {
+  margin-top: 20px;
+  border: 1px solid rgb(192, 189, 189);
+  padding-top: 10px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px grey;
+}
+
+.list {
+  margin-top: 15px;
+}
+
+.list-group-item {
+  padding: 10px;
+  border-radius: 10px;
+}

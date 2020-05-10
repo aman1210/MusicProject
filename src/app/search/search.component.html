@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2>Search</h2>
+      <form>
+        <div class="row">
+          <div class="col-md-3">
+            <select
+              class="form-control"
+              name="option"
+              [(ngModel)]="default"
+              required
+            >
+              <option value="song">Song</option>
+              <option value="artist">Artist</option>
+            </select>
+          </div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="search"
+              placeholder="Search"
+              [(ngModel)]="search"
+              (keyup)="onSearch()"
+            />
+          </div>
+        </div>
+      </form>
+      <div *ngIf="FoundSong">
+        <div
+          class="row"
+          *ngFor="let song of FoundSong; let i = index"
+          style="cursor: pointer;"
+          (click)="onSongClick(song)"
+        >
+          <a class="container">
+            <img
+              src="{{ song.albumArt }}"
+              class="img-responsive"
+              height="100px"
+            />
+            <span>{{ song.name }}</span>
+          </a>
+        </div>
+      </div>
+      <div *ngIf="FoundArtist">
+        <div
+          class="row"
+          *ngFor="let artist of FoundArtist; let i = index"
+          style="cursor: pointer;"
+          (click)="onArtistClick(artist)"
+        >
+          <a class="container">
+            <img
+              src="{{ artist.artistImage }}"
+              class="img-responsive"
+              height="100px"
+            />
+            <span>{{ artist.artist }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

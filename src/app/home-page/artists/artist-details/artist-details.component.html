@@ -1,0 +1,52 @@
+<div class="container">
+  <h4 align="center">{{ FoundArtist.artist }}</h4>
+  <div class="artist-img" align="center">
+    <img
+      src="{{ FoundArtist.artistImage }}"
+      class="img-responsive"
+      height="150px"
+    />
+  </div>
+  <button
+    class="btn btn-outline-primary"
+    (click)="onAdd()"
+    *ngIf="hasArtistImage && !FoundArtist.artistImage"
+  >
+    Add Artist Image
+  </button>
+  <button
+    class="btn btn-outline-danger"
+    *ngIf="!hasArtistImage"
+    (click)="hasArtistImage = !hasArtistImage"
+  >
+    Cancel
+  </button>
+  <div class="div" *ngIf="!hasArtistImage">
+    <form (ngSubmit)="onSubmit(AI)" #AI="ngForm">
+      <div class="form-group">
+        <label for="Image Link">Image Url</label>
+        <input type="text" class="form-control" name="url" ngModel required />
+      </div>
+      <button type="submit" class="btn btn-outline-info">
+        Add
+      </button>
+    </form>
+  </div>
+  <div class="row">
+    <div
+      class="col-lg-3"
+      *ngFor="let song of FoundArtist.songs; let i = index"
+      (click)="onSelect(song)"
+    >
+      <!--  -->
+      <div class="card">
+        <img
+          src="{{ song.albumArt }}"
+          class="card-img-top img-responsive"
+          align="center"
+        />
+        <h6 class="card-title" align="center">{{ song.name }}</h6>
+      </div>
+    </div>
+  </div>
+</div>

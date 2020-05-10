@@ -1,0 +1,13 @@
+<div class="weekList">
+  <h4 align="center">Weekly Top</h4>
+  <div class="list">
+    <a
+      class="list-group-item"
+      *ngFor="let song of songs; let i = index"
+      (click)="onSelect(song, i)"
+    >
+      {{ i + 1 }}. <img src="{{ song.albumArt }}" height="25px" />
+      {{ song.name }}
+    </a>
+  </div>
+</div>

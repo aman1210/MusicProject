@@ -1,0 +1,12 @@
+a.container {
+  margin-top: 5px;
+  border: 1px solid rgb(192, 189, 189);
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px gray;
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+
+a span {
+  margin-left: 50px;
+}

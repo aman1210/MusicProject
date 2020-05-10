@@ -1,0 +1,63 @@
+<div class="authpage">
+  <!-- <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br /> -->
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-lg-4 offset-lg-4" id="col" align="center">
+        <app-alert
+          *ngIf="errormsg"
+          [message]="errormsg"
+          (click)="onHandleError()"
+        ></app-alert>
+        <div *ngIf="isLoading" style="text-align: center;">
+          <app-loading></app-loading>
+        </div>
+        <div class="form" align="left" *ngIf="!isLoading && !errormsg">
+          <form (ngSubmit)="onSubmit(aForm)" #aForm="ngForm">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                ngModel
+                required
+                email
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                ngModel
+                required
+                minlength="6"
+              />
+            </div>
+            <button
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="!aForm.valid"
+            >
+              {{ isLoginMode ? "Login" : "SignUp" }}
+            </button>
+            |
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="onSwtichMode()"
+            >
+              Switch to {{ isLoginMode ? "SignUp" : "Login" }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

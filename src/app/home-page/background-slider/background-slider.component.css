@@ -1,0 +1,36 @@
+.background-slider {
+  margin-top: 15px;
+  background-image: url("../../../assets/jonathan-velasquez-c1ZN57GfDB0-unsplash.jpg");
+  min-height: 400px;
+  position: relative;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.7;
+}
+@media only screen and (max-device-width: 756px) {
+  .background-slider {
+    background-attachment: scroll;
+  }
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+}
+
+.caption span.border {
+  background-color: black;
+  color: white;
+  padding: 18px;
+  font-size: 36px;
+  letter-spacing: 10px;
+}
+
+img {
+  width: 100vw;
+}
