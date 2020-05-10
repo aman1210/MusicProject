@@ -1,8 +1,8 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { SongService } from '../song.service';
-import { Song } from '../song.model';
-import { Artist } from './artist.model';
-import { Subscription, Subject } from 'rxjs';
+import { Injectable, OnInit, OnDestroy } from "@angular/core";
+import { SongService } from "../song.service";
+import { Song } from "../song.model";
+import { Artist } from "./artist.model";
+import { Subscription, Subject } from "rxjs";
 
 @Injectable()
 export class ArtistService {
@@ -22,6 +22,11 @@ export class ArtistService {
     return this.artist.slice();
   }
 
+  updateArtists(artists: Artist[]) {
+    this.artist = artists;
+    // console.log(this.artist);
+    return this.artistChanged.next(this.artist.slice());
+  }
   addArtists(song: Song) {
     const found = this.artist.some((el) => {
       if (el.artist === song.artist) {

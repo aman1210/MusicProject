@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ArtistService } from 'src/app/shared/artist/artist.service';
-import { Artist } from 'src/app/shared/artist/artist.model';
-import { Subscription } from 'rxjs';
-import { Song } from 'src/app/shared/song.model';
-import { SongService } from 'src/app/shared/song.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { ArtistService } from "src/app/shared/artist/artist.service";
+import { Artist } from "src/app/shared/artist/artist.model";
+import { Subscription } from "rxjs";
+import { Song } from "src/app/shared/song.model";
+import { SongService } from "src/app/shared/song.service";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-artists',
-  templateUrl: './artists.component.html',
-  styleUrls: ['./artists.component.css'],
+  selector: "app-artists",
+  templateUrl: "./artists.component.html",
+  styleUrls: ["./artists.component.css"],
 })
 export class ArtistsComponent implements OnInit {
   artists: Artist[];
@@ -19,14 +19,14 @@ export class ArtistsComponent implements OnInit {
   constructor(
     private artistService: ArtistService,
     private songService: SongService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.songs = this.songService.getSongs();
     this.sChanged = this.songService.songsChanged.subscribe((songs: Song[]) => {
       this.songs = songs;
       for (var i in this.songs) {
         this.artistService.addArtists(this.songs[i]);
-        // console.log('fetching');
       }
     });
   }
@@ -38,16 +38,18 @@ export class ArtistsComponent implements OnInit {
         this.artists = artists;
       }
     );
-
-    // console.log(this.artists);
+    this.route.queryParams.subscribe((params) => {
+      if (params) {
+        setTimeout(() => {
+          for (var i in this.artists) {
+            if (this.artists[i].artist === params.name) {
+              this.fetchSong(this.artists[i]);
+            }
+          }
+        }, 2000);
+      }
+    });
   }
-
-  // onFetch() {
-  //   for (var i in this.songs) {
-  //     this.artistService.addArtists(this.songs[i]);
-  //     console.log('fetching');
-  //   }
-  // }
 
   fetchSong(artist: Artist) {
     let songsFound: Song[] = [];
@@ -57,6 +59,6 @@ export class ArtistsComponent implements OnInit {
         this.artistService.addSongs(artist, songsFound);
       }
     });
-    this.router.navigate(['artist'], { queryParams: { name: artist.artist } });
+    this.router.navigate(["artist"], { queryParams: { name: artist.artist } });
   }
 }
