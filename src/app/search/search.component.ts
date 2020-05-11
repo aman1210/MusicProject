@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Song } from '../shared/song.model';
-import { SongService } from '../shared/song.service';
-import { ArtistService } from '../shared/artist/artist.service';
-import { Artist } from '../shared/artist/artist.model';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { Song } from "../shared/song.model";
+import { SongService } from "../shared/song.service";
+import { ArtistService } from "../shared/artist/artist.service";
+import { Artist } from "../shared/artist/artist.model";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
+  selector: "app-search",
+  templateUrl: "./search.component.html",
+  styleUrls: ["./search.component.css"],
 })
 export class SearchComponent implements OnInit {
-  search = '';
-  default = 'song';
+  search = "";
+  default = "song";
   songs: Song[];
   FoundSong: Song[] = [];
   artists: Artist[];
@@ -32,8 +32,8 @@ export class SearchComponent implements OnInit {
   onSearch() {
     this.FoundSong = [];
     this.FoundArtist = [];
-    if (this.search != '') {
-      if (this.default === 'song') {
+    if (this.search != "") {
+      if (this.default === "song") {
         for (var i in this.songs) {
           const sname = this.songs[i].name.toLowerCase();
           if (
@@ -56,10 +56,17 @@ export class SearchComponent implements OnInit {
   }
 
   onSongClick(song: Song) {
-    this.router.navigate(['/nowPlaying'], { queryParams: { name: song.name } });
+    this.router.navigate(["/nowPlaying"], { queryParams: { name: song.name } });
   }
 
   onArtistClick(artist: Artist) {
-    this.router.navigate(['/artist'], { queryParams: { name: artist.artist } });
+    let songsFound: Song[] = [];
+    this.songs.some((el) => {
+      if (el.artist === artist.artist) {
+        songsFound.push(el);
+        this.artistService.addSongs(artist, songsFound);
+      }
+    });
+    this.router.navigate(["/artist"], { queryParams: { name: artist.artist } });
   }
 }

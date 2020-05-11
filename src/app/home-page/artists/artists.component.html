@@ -2,7 +2,7 @@
   <!-- <button class="btn btn-primary" (click)="onFetch()">FetchArtist</button> -->
   <h4 align="center">Artists</h4>
   <div class="artists" align="center">
-    <div *ngFor="let artist of artists | shuffle | slice: 0:5; let i = index">
+    <div *ngFor="let artist of artists | shuffle | slice: 0:4; let i = index">
       <a
         class="list-group-item"
         (click)="fetchSong(artist)"
