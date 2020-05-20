@@ -9,11 +9,11 @@
   background-size: cover;
   opacity: 0.7;
 }
-@media only screen and (max-device-width: 756px) {
+/* @media only screen and (max-device-width: 756px) {
   .background-slider {
     background-attachment: scroll;
   }
-}
+} */
 
 .caption {
   position: absolute;

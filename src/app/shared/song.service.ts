@@ -1,6 +1,6 @@
-import { Song } from './song.model';
-import { of, Subject } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Song } from "./song.model";
+import { of, Subject } from "rxjs";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class SongService {
@@ -11,6 +11,16 @@ export class SongService {
     this.songs = songs;
     // console.log(songs);
     this.songsChanged.next(this.songs.slice());
+  }
+
+  changeInSongs(song: Song) {
+    for (var i in this.songs) {
+      if (song.name === this.songs[i].name) {
+        this.songs[i] = song;
+        // console.log(this.songs[i]);
+        this.songsChanged.next(this.songs.slice());
+      }
+    }
   }
 
   getSongs() {

@@ -1,55 +1,41 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { NgPipesModule } from 'ngx-pipes';
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
+import { NgModule } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule } from "@angular/common/http";
+import { NowPlayingModule } from "./now-playing/now-playing.module";
 
-import { AppComponent } from './app.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { BackgroundSliderComponent } from './home-page/background-slider/background-slider.component';
-import { WeekTopComponent } from './home-page/week-top/week-top.component';
-import { ArtistsComponent } from './home-page/artists/artists.component';
-import { SongService } from './shared/song.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material.module';
-import { NowPlayingComponent } from './now-playing/now-playing.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { AppRoute } from './app-routes.module';
-import { NewSongComponent } from './home-page/new-song/new-song.component';
-import { NewReleaseComponent } from './home-page/new-release/new-release.component';
-import { DataStorageService } from './shared/dataStorage.service';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthComponent } from './auth/auth.component';
-import { ArtistService } from './shared/artist/artist.service';
-import { ArtistDetailsComponent } from './home-page/artists/artist-details/artist-details.component';
-import { SearchComponent } from './search/search.component';
-import { AlertComponent } from './shared/alert/alert.component';
-import { LoadingSpinner } from './shared/loadingSpinner/loading-spinner.component';
+import { AppRoute } from "./app-routes.module";
+
+import { AppComponent } from "./app.component";
+import { NavBarComponent } from "./nav-bar/nav-bar.component";
+import { PlaylistComponent } from "./playlist/playlist.component";
+import { SearchComponent } from "./search/search.component";
+
+import { SongService } from "./shared/song.service";
+import { DataStorageService } from "./shared/dataStorage.service";
+import { ArtistService } from "./shared/artist/artist.service";
+// import { HomepageModule } from "./home-page/home-page.module";
+import { NgPipesModule } from "ngx-pipes";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    BackgroundSliderComponent,
-    NewReleaseComponent,
-    WeekTopComponent,
-    ArtistsComponent,
-    NowPlayingComponent,
-    HomePageComponent,
-    NewSongComponent,
-    AuthComponent,
-    ArtistDetailsComponent,
     SearchComponent,
-    AlertComponent,
-    LoadingSpinner,
+    PlaylistComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule,
+    NgPipesModule,
     AppRoute,
     HttpClientModule,
-    NgPipesModule,
+    NowPlayingModule,
+    // HomepageModule,
+    SharedModule,
   ],
   providers: [SongService, DataStorageService, ArtistService],
   bootstrap: [AppComponent],

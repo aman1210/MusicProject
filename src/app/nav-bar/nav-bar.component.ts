@@ -10,18 +10,18 @@ import { Subscription } from "rxjs";
 export class NavBarComponent implements OnInit, OnDestroy {
   isAuth = false;
   private userSub: Subscription;
+  innerWidth: number;
+  hide: boolean = false;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+    if (innerWidth < 992) {
+      this.hide = true;
+    }
     this.userSub = this.authService.user.subscribe((user) => {
       this.isAuth = !user ? false : true;
     });
-  }
-
-  onOption() {
-    if (document.getElementsByClassName("collapsed").length) {
-      console.log(document.getElementById("playing").className.length);
-    }
   }
 
   onLogout() {

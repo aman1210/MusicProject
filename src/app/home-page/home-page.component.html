@@ -1,13 +1,13 @@
 <app-background-slider></app-background-slider>
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3" *ngIf="!hide">
       <app-week-top></app-week-top>
     </div>
-    <div class="col-md-6">
+    <div class="col-lg-6">
       <router-outlet></router-outlet>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3" *ngIf="!hide">
       <app-artists></app-artists>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <nav
-  class="navbar sticky-top navbar-expand-md navbar-light"
+  class="navbar navbar-expand-md navbar-light"
   style="background: rgba(241, 241, 241, 0.9);"
 >
   <div
@@ -10,17 +10,18 @@
   >
     <ul class="navbar-nav mr-auto">
       <li routerLinkActive="active" class="nav-item">
-        <a
-          class="nav-link"
-          [routerLink]="['/nowPlaying']"
-          *ngIf="isAuth"
-          (click)="onOption()"
+        <a class="nav-link" [routerLink]="['/nowPlaying']" *ngIf="isAuth"
           ><img src="../../assets/play-circle.svg" /> Playing</a
         >
       </li>
       <li class="nav-item" routerLinkActive="active" *ngIf="isAuth">
         <a class="nav-link" [routerLink]="['/search']"
           ><img src="../../assets/search.svg" /> Search
+        </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="isAuth">
+        <a class="nav-link" [routerLink]="['/playlist']"
+          ><img src="../../assets/list.svg" /> Playlist
         </a>
       </li>
     </ul>
@@ -35,7 +36,6 @@
       data-toggle="collapse"
       data-target=".dual-collapse2"
       id="toggler"
-      (click)="onOption()"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -47,13 +47,13 @@
     data-target=".navbar-collapse.show"
   >
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item" routerLink="active">
+      <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/add']" *ngIf="isAuth"
           >New Song <img src="../../assets/plus-square.svg"
         /></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/auth" *ngIf="!isAuth"
+        <a class="nav-link" routerLinkActive="/auth" *ngIf="!isAuth"
           >Login <img src="../../assets/log-in (1).svg"
         /></a>
       </li>

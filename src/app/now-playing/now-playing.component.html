@@ -65,11 +65,18 @@
             <button mat-button [disabled]="isLastPlaying()" (click)="next()">
               <mat-icon mat-list-icon>skip_next</mat-icon>
             </button>
+
+            <button mat-button (click)="like()" *ngIf="!isLiked">
+              <mat-icon mat-list-icon class="fav">favorite_border</mat-icon>
+            </button>
+            <button mat-button [disabled]="!isLiked" *ngIf="isLiked">
+              <mat-icon mat-list-icon class="fav">favorite</mat-icon>
+            </button>
           </mat-toolbar-row>
         </mat-toolbar>
         <div class="content">
           <mat-list color="primary">
-            <h3 mat-subheader>Top Charts</h3>
+            <h3 mat-subheader>{{ isPlaylist ? "Playlist" : "Top Charts" }}</h3>
             <mat-list-item
               *ngFor="let song of songs; let i = index"
               (click)="openSong(song, i)"

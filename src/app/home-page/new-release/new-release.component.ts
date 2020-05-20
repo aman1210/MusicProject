@@ -1,14 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { Song } from 'src/app/shared/song.model';
-import { SongService } from 'src/app/shared/song.service';
-import { Subscription } from 'rxjs';
-import { DataStorageService } from 'src/app/shared/dataStorage.service';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router } from "@angular/router";
+import { Song } from "src/app/shared/song.model";
+import { SongService } from "src/app/shared/song.service";
+import { Subscription } from "rxjs";
+import { DataStorageService } from "src/app/shared/dataStorage.service";
+import { PlaylistService } from "src/app/shared/playlist/playlist.service";
 
 @Component({
-  selector: 'app-new-release',
-  templateUrl: './new-release.component.html',
-  styleUrls: ['./new-release.component.css'],
+  selector: "app-new-release",
+  templateUrl: "./new-release.component.html",
+  styleUrls: ["./new-release.component.css"],
 })
 export class NewReleaseComponent implements OnInit, OnDestroy {
   songs: Song[];
@@ -17,7 +18,8 @@ export class NewReleaseComponent implements OnInit, OnDestroy {
   constructor(
     private songService: SongService,
     private router: Router,
-    private dataStorageService: DataStorageService
+    private dataStorageService: DataStorageService,
+    private playlistService: PlaylistService
   ) {}
 
   ngOnInit() {
@@ -28,11 +30,15 @@ export class NewReleaseComponent implements OnInit, OnDestroy {
   }
 
   onSelect(song) {
-    this.router.navigate(['nowPlaying'], { queryParams: { name: song.name } });
+    this.router.navigate(["nowPlaying"], { queryParams: { name: song.name } });
+  }
+
+  onAddPlaylist(song: Song) {
+    this.playlistService.addSong(song);
   }
 
   onNew() {
-    this.router.navigate(['./add']);
+    this.router.navigate(["./add"]);
   }
 
   onSave() {

@@ -1,17 +1,27 @@
 <div class="container">
-  <h4 align="center">Newly Added</h4>
+  <h4 align="center" id="newSongs">Newly Added</h4>
   <div class="row">
     <div
-      class="col-lg-3"
-      *ngFor="let song of songs | reverse; let i = index"
-      (click)="onSelect(song)"
+      class="col-6 col-sm-4 col-md-4 col-lg-3"
+      *ngFor="let song of songs | reverse | slice: 0:12; let i = index"
     >
+      <!--  -->
       <div class="card">
         <img
           src="{{ song.albumArt }}"
           class="card-img-top img-responsive"
           align="center"
         />
+        <div class="play">
+          <button class="btn btn-success" (click)="onSelect(song)">
+            <img src="../../../assets/play-circle.svg" />
+          </button>
+          <div class="spacer"></div>
+          <button class="btn btn-info" (click)="onAddPlaylist(song)">
+            <img src="../../../assets/plus-square.svg" />
+          </button>
+        </div>
+        <!-- <button></button> -->
         <h6 class="card-title" align="center">{{ song.name }}</h6>
       </div>
     </div>

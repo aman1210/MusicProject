@@ -9,7 +9,7 @@
 @media (max-width: 800px) {
   .authpage {
     background-image: url("https://images.unsplash.com/photo-1484876065684-b683cf17d276?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80");
-    background-size: 100vw;
+    background-size: 100vh;
   }
 }
 

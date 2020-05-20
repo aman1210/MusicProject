@@ -59,6 +59,9 @@ export class ArtistsComponent implements OnInit {
         this.artistService.addSongs(artist, songsFound);
       }
     });
-    this.router.navigate(["artist"], { queryParams: { name: artist.artist } });
+    this.router.navigate(["artist"], {
+      queryParams: { name: artist.artist },
+      fragment: "newSongs",
+    });
   }
 }

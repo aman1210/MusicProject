@@ -1,0 +1,42 @@
+.container {
+  margin-top: 1rem;
+}
+.space {
+  width: 1rem;
+  display: inline-block;
+}
+
+button {
+  float: right;
+}
+
+.btn {
+  transition: 0.5s ease;
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  opacity: 0;
+  align-items: center;
+}
+
+div:hover .btn {
+  opacity: 1;
+}
+
+#delete:hover {
+  background-color: rgb(230, 5, 5);
+}
+
+#play:hover {
+  background-color: greenyellow;
+}
+
+@media screen and (max-width: 768px) {
+  small.text-muted {
+    display: none;
+  }
+}
+
+/* small.text-muted{
+
+} */
