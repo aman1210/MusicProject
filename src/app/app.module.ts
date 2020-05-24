@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NowPlayingModule } from "./now-playing/now-playing.module";
 
 import { AppRoute } from "./app-routes.module";
@@ -18,6 +18,9 @@ import { ArtistService } from "./shared/artist/artist.service";
 // import { HomepageModule } from "./home-page/home-page.module";
 import { NgPipesModule } from "ngx-pipes";
 import { SharedModule } from "./shared/shared.module";
+import { AuthInterceptor } from "./auth/auth-interceptor";
+import { FavoriteComponent } from "./favorite/favorite.component";
+import { MaterialModule } from "./material.module";
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { SharedModule } from "./shared/shared.module";
     NavBarComponent,
     SearchComponent,
     PlaylistComponent,
+    FavoriteComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,10 +38,16 @@ import { SharedModule } from "./shared/shared.module";
     AppRoute,
     HttpClientModule,
     NowPlayingModule,
+    MaterialModule,
     // HomepageModule,
     SharedModule,
   ],
-  providers: [SongService, DataStorageService, ArtistService],
+  providers: [
+    SongService,
+    DataStorageService,
+    ArtistService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

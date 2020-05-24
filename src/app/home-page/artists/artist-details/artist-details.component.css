@@ -6,6 +6,17 @@
   padding-bottom: 20px;
   padding-top: 10px;
 }
+
+mat-spinner {
+  margin: auto;
+  stroke: red;
+}
+
+:host ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: red;
+}
+
 .card {
   margin-top: 20px;
   border-radius: 10px;
@@ -14,8 +25,6 @@
 .card img {
   opacity: 1;
   border-radius: 10px;
-  max-height: 400.73px;
-  max-width: 400.73px;
   transition: 0.5 ease;
   backface-visibility: hidden;
 }

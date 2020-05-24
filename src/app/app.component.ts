@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DataStorageService } from "./shared/dataStorage.service";
 import { Router } from "@angular/router";
 import { AuthService } from "./auth/auth.service";
+import { PlaylistService } from "./shared/playlist/playlist.service";
 
 @Component({
   selector: "app-root",
@@ -13,14 +14,16 @@ export class AppComponent implements OnInit {
   constructor(
     private dataStorage: DataStorageService,
     public router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private playlistService: PlaylistService
   ) {}
 
   ngOnInit() {
-    this.authService.autoLogin();
-    this.router.navigate([""]);
+    // this.router.navigate([""]);
+    this.authService.autoLoginUser();
     this.dataStorage.FetchSongs().subscribe();
     this.dataStorage.FetchArtists().subscribe();
+    this.playlistService.setSongs();
     // this.dataStorage.FetchSongs().subscribe();
   }
 }

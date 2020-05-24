@@ -10,15 +10,18 @@ import { Subscription } from "rxjs";
   styleUrls: ["./week-top.component.css"],
 })
 export class WeekTopComponent implements OnInit, OnDestroy {
+  isLoading = false;
   songs: Song[];
   private sChanged: Subscription;
   constructor(private songService: SongService, private router: Router) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.sChanged = this.songService.songsChanged.subscribe((songs: Song[]) => {
       this.songs = songs;
       this.songs = this.songs.sort((a, b) => b.likes - a.likes);
       this.songs = this.songs.slice(0, 10);
+      this.isLoading = false;
     });
   }
 

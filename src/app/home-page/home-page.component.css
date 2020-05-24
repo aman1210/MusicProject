@@ -1,0 +1,11 @@
+.bgImage {
+  margin-top: 15px;
+  background-image: url("../../assets/jonathan-velasquez-c1ZN57GfDB0-unsplash.jpg");
+  min-height: 400px;
+  position: relative;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.7;
+}

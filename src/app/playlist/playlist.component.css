@@ -10,7 +10,7 @@ button {
   float: right;
 }
 
-.btn {
+.btn-created {
   transition: 0.5s ease;
   height: 50px;
   width: 50px;
@@ -19,7 +19,7 @@ button {
   align-items: center;
 }
 
-div:hover .btn {
+a:hover .btn-created {
   opacity: 1;
 }
 
@@ -29,6 +29,14 @@ div:hover .btn {
 
 #play:hover {
   background-color: greenyellow;
+}
+mat-spinner {
+  margin: auto;
+}
+
+:host ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: black;
 }
 
 @media screen and (max-width: 768px) {

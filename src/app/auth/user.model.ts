@@ -1,15 +1,17 @@
 export class User {
+  public email: string;
+  public password: string;
+  public liked: string[];
+  public playlist: string[];
   constructor(
-    public email: string,
-    public passwor: string,
-    private _token: string,
-    private _tokenExpireDate: Date
-  ) {}
-
-  get token() {
-    if (!this._tokenExpireDate || new Date() > this._tokenExpireDate) {
-      return null;
-    }
-    return this._token;
+    email: string,
+    password: string,
+    liked: string[],
+    playlist: string[]
+  ) {
+    this.email = email;
+    this.password = password;
+    this.liked = liked;
+    this.playlist = playlist;
   }
 }

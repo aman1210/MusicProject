@@ -3,6 +3,8 @@ import { NgForm } from "@angular/forms";
 import { AuthService, AuthResponseData } from "./auth.service";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
+import { User } from "./user.model";
+import { stringify } from "querystring";
 
 @Component({
   selector: "app-auth",
@@ -16,7 +18,12 @@ export class AuthComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.errorLis.subscribe((error) => {
+      this.errormsg = error;
+      this.isLoading = false;
+    });
+  }
 
   onSwtichMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -29,22 +36,12 @@ export class AuthComponent implements OnInit {
     this.isLoading = true;
     const email = form.value.email;
     const password = form.value.password;
-    let authObs: Observable<AuthResponseData>;
-    if (this.isLoginMode) {
-      authObs = this.authService.signin(email, password);
+
+    if (!this.isLoginMode) {
+      this.authService.createUser(email, password);
     } else {
-      authObs = this.authService.signup(email, password);
+      this.authService.loginUser(email, password);
     }
-    authObs.subscribe(
-      (respData) => {
-        this.isLoading = false;
-        this.router.navigate([""]);
-      },
-      (errorMsg) => {
-        this.isLoading = false;
-        this.errormsg = errorMsg;
-      }
-    );
     form.reset();
   }
   onHandleError() {

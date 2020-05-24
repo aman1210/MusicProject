@@ -1,33 +1,23 @@
 <div class="container">
-  <!-- <button class="btn btn-primary" (click)="onFetch()">FetchArtist</button> -->
   <h4 align="center">Artists</h4>
-  <div class="artists" align="center">
-    <div *ngFor="let artist of artists | shuffle | slice: 0:4; let i = index">
-      <a
-        class="list-group-item"
-        (click)="fetchSong(artist)"
-        style="cursor: pointer;"
-      >
-        <div class="img" *ngIf="artist.artistImage">
-          <img src="{{ artist.artistImage }}" />
-        </div>
+  <div *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="!isLoading">
+    <div class="artists" align="center">
+      <div *ngFor="let artist of artists | shuffle | slice: 0:4; let i = index">
+        <a
+          class="list-group-item"
+          (click)="fetchSong(artist)"
+          style="cursor: pointer;"
+        >
+          <div class="img" *ngIf="artist.artistImage">
+            <img src="{{ artist.artistImage }}" />
+          </div>
 
-        {{ artist.artist }}
-      </a>
+          {{ artist.artist }}
+        </a>
+      </div>
     </div>
-    <!-- <a class="list-group-item">
-      <img
-        src="https://edm.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTUzNjI0Mzc0MjQ5NzkyNTY4/linkin-park.jpg"
-        alt=""
-      />
-      <p>Linkin Park</p>
-    </a>
-    <a class="list-group-item">
-      <img
-        src="https://scontent-frt3-1.xx.fbcdn.net/v/t1.0-9/p960x960/43204154_10156726854811407_5330601859457482752_o.jpg?_nc_cat=1&_nc_sid=85a577&_nc_ohc=yZTRGYIHTToAX_KnjYC&_nc_ht=scontent-frt3-1.xx&_nc_tp=6&oh=aff26e1bc90e2aafe6256b7cdc8f0d49&oe=5EDABB36"
-        alt=""
-      />
-      <p>Imagine Dragons</p>
-    </a> -->
   </div>
 </div>

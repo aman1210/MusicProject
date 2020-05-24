@@ -12,10 +12,11 @@ import { DataStorageService } from "src/app/shared/dataStorage.service";
   styleUrls: ["./artist-details.component.css"],
 })
 export class ArtistDetailsComponent implements OnInit {
-  artist: Artist[];
-  song: Song[];
-  FoundArtist: Artist;
-  hasArtistImage = false;
+  song: Song[] = null;
+  FoundArtist: Artist = null;
+  hasArtistImage = true;
+  showForm = false;
+  isLoading = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -23,37 +24,43 @@ export class ArtistDetailsComponent implements OnInit {
     private dataStorage: DataStorageService
   ) {}
 
-  ngOnInit(): void {
-    this.artist = this.artistService.getArtists();
-    this.route.queryParams.subscribe((params) => {
-      for (var i in this.artist) {
-        if (this.artist[i].artist === params.name) {
-          this.FoundArtist = this.artist[i];
-          this.hasArtistImage = true;
-        }
-      }
-      if (this.FoundArtist.artistImage) {
-        this.hasArtistImage = true;
-      }
+  ngOnInit() {
+    this.isLoading = true;
+    this.route.params.subscribe((params) => {
+      this.isLoading = true;
+      this.dataStorage
+        .FetchOneArtist(params["id"])
+        .subscribe((artist: Artist) => {
+          this.FoundArtist = artist;
+          if (!this.FoundArtist.artistImage) {
+            this.hasArtistImage = false;
+          } else {
+            this.hasArtistImage = true;
+          }
+          this.isLoading = false;
+        });
     });
   }
 
   onAdd() {
+    this.hasArtistImage = true;
+    this.showForm = true;
+  }
+
+  onCancel() {
+    this.showForm = false;
     this.hasArtistImage = false;
   }
+
   onSelect(song) {
     this.router.navigate(["nowPlaying"], { queryParams: { name: song.name } });
   }
   onSubmit(submittedForm: NgForm) {
     const artistImage = submittedForm.value.url;
-    for (var i in this.artist) {
-      if (this.artist[i].artist === this.FoundArtist.artist) {
-        this.FoundArtist = this.artist[i];
-      }
-    }
     this.FoundArtist.artistImage = artistImage;
-    this.artistService.updateArtists(this.artist);
-    this.dataStorage.SaveArtists();
+    this.dataStorage.SaveArtistDetail(this.FoundArtist);
+    window.location.reload();
     this.hasArtistImage = true;
+    this.showForm = false;
   }
 }

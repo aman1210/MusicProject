@@ -1,0 +1,28 @@
+.container {
+  margin-top: 1rem;
+}
+
+button {
+  float: right;
+}
+
+.btn {
+  transition: 0.5s ease;
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  opacity: 0;
+  align-items: center;
+}
+
+a:hover .btn {
+  opacity: 1;
+}
+#play:hover {
+  background-color: greenyellow;
+}
+@media screen and (max-width: 768px) {
+  small.text-muted {
+    display: none;
+  }
+}

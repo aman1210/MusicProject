@@ -11,6 +11,7 @@ import { ArtistDetailsComponent } from "./artists/artist-details/artist-details.
 import { NewReleaseComponent } from "./new-release/new-release.component";
 import { WeekTopComponent } from "./week-top/week-top.component";
 import { SharedModule } from "../shared/shared.module";
+import { MaterialModule } from "../material.module";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,12 @@ import { SharedModule } from "../shared/shared.module";
     NewSongComponent,
     WeekTopComponent,
   ],
-  imports: [SharedModule, FormsModule, NgPipesModule, HomepageRoutesModule],
+  imports: [
+    SharedModule,
+    FormsModule,
+    NgPipesModule,
+    HomepageRoutesModule,
+    MaterialModule,
+  ],
 })
 export class HomepageModule {}

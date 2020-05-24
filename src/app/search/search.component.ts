@@ -64,9 +64,8 @@ export class SearchComponent implements OnInit {
     this.songs.some((el) => {
       if (el.artist === artist.artist) {
         songsFound.push(el);
-        this.artistService.addSongs(artist, songsFound);
       }
     });
-    this.router.navigate(["/artist"], { queryParams: { name: artist.artist } });
+    this.router.navigate(["/artist", artist._id]);
   }
 }

@@ -9,21 +9,12 @@ export class SongService {
 
   setSongs(songs: Song[]) {
     this.songs = songs;
-    // console.log(songs);
+    // console.log(this.songs.slice());
     this.songsChanged.next(this.songs.slice());
   }
 
-  changeInSongs(song: Song) {
-    for (var i in this.songs) {
-      if (song.name === this.songs[i].name) {
-        this.songs[i] = song;
-        // console.log(this.songs[i]);
-        this.songsChanged.next(this.songs.slice());
-      }
-    }
-  }
-
   getSongs() {
+    // console.log(this.songs);
     return this.songs.slice();
   }
 

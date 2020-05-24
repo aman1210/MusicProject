@@ -14,3 +14,13 @@
   padding: 10px;
   border-radius: 10px;
 }
+
+mat-spinner {
+  margin: auto;
+  stroke: red;
+}
+
+:host ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: limegreen;
+}

@@ -12,6 +12,7 @@ import { PlaylistService } from "src/app/shared/playlist/playlist.service";
   styleUrls: ["./new-release.component.css"],
 })
 export class NewReleaseComponent implements OnInit, OnDestroy {
+  isLoading = false;
   songs: Song[];
   showingForm = false;
   private sChanged: Subscription;
@@ -23,14 +24,16 @@ export class NewReleaseComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.songs = this.songService.getSongs();
     this.sChanged = this.songService.songsChanged.subscribe((songs: Song[]) => {
-      this.songs = songs;
+      this.songs = this.songService.getSongs();
+      this.isLoading = false;
     });
   }
 
-  onSelect(song) {
-    this.router.navigate(["nowPlaying"], { queryParams: { name: song.name } });
+  onSelect(song: Song) {
+    this.router.navigate(["nowPlaying", song._id]);
   }
 
   onAddPlaylist(song: Song) {
@@ -39,10 +42,6 @@ export class NewReleaseComponent implements OnInit, OnDestroy {
 
   onNew() {
     this.router.navigate(["./add"]);
-  }
-
-  onSave() {
-    this.dataStorageService.SaveSongs();
   }
 
   showForm() {

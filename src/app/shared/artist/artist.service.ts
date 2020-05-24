@@ -3,6 +3,7 @@ import { SongService } from "../song.service";
 import { Song } from "../song.model";
 import { Artist } from "./artist.model";
 import { Subscription, Subject } from "rxjs";
+import { DataStorageService } from "../dataStorage.service";
 
 @Injectable()
 export class ArtistService {
@@ -11,10 +12,7 @@ export class ArtistService {
 
   constructor(private songService: SongService) {}
 
-  private artist: Artist[] = [
-    // new Artist('Imagine Dragons'),
-    // new Artist('Linkin Park'),
-  ];
+  private artist: Artist[] = [];
 
   FoundArtist: Artist = null;
 
@@ -22,32 +20,13 @@ export class ArtistService {
     return this.artist.slice();
   }
 
+  updatelist() {
+    // this.dataService.FetchArtists();
+  }
+
   updateArtists(artists: Artist[]) {
     this.artist = artists;
-    // console.log(this.artist);
     return this.artistChanged.next(this.artist.slice());
-  }
-  addArtists(song: Song) {
-    const found = this.artist.some((el) => {
-      if (el.artist === song.artist) {
-        this.FoundArtist = el;
-        return el.artist === song.artist;
-      }
-    });
-    if (found) {
-      // this.addsong(this.FoundArtist, song);
-      // console.log('found');
-    } else {
-      const newA = new Artist(song.artist);
-      this.artist.push(newA);
-      this.artistChanged.next(this.artist.slice());
-    }
-  }
-  addSongs(artist: Artist, songs: Song[]) {
-    // console.log('hello');
-    artist.songs = songs;
-    this.artistChanged.next(this.artist.slice());
-    // console.log(this.artist);
   }
 
   setArtists(artists: Artist[]) {

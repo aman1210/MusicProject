@@ -2,15 +2,22 @@ import { Injectable } from "@angular/core";
 import { SongService } from "../song.service";
 import { Song } from "../song.model";
 import { Subject, of } from "rxjs";
+import { DataStorageService } from "../dataStorage.service";
+import { AuthService } from "src/app/auth/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class PlaylistService {
+  private songs: Song[];
   private playlist: Song[] = [];
-  playlistChanged = new Subject<Song[]>();
-  constructor(private songService: SongService) {}
+  playlistSongsId: string[] = [];
+  playlistIdChanged = new Subject<string[]>();
+  constructor(
+    private songService: SongService,
+    private authService: AuthService
+  ) {}
 
-  getlist() {
-    return this.playlist.slice();
+  getIdlist() {
+    return this.playlistSongsId;
   }
 
   getstream() {
@@ -18,16 +25,21 @@ export class PlaylistService {
   }
 
   addSong(song: Song) {
-    this.playlist.push(song);
-    this.playlistChanged.next(this.playlist.slice());
+    this.playlistSongsId.push(song._id);
+    this.playlistIdChanged.next(this.playlistSongsId);
   }
 
   deleteSong(song: Song) {
-    for (var i in this.playlist) {
-      if (this.playlist[i].name === song.name) {
-        this.playlist.splice(+i, 1);
-        this.playlistChanged.next(this.playlist.slice());
+    for (var i in this.playlistSongsId) {
+      if (this.playlistSongsId[i] === song._id) {
+        this.playlistSongsId.splice(+i, 1);
+        this.playlistIdChanged.next(this.playlistSongsId);
       }
     }
+  }
+
+  setSongs() {
+    this.playlistSongsId = this.authService.playlist;
+    this.playlistIdChanged.next(this.playlistSongsId);
   }
 }

@@ -1,8 +1,25 @@
 <div class="container">
-  <h3>Playlist</h3>
   <div class="row">
-    <div class="col-lg-6 offset-lg-3" *ngIf="playlist !== []">
-      <div class="list" *ngFor="let song of playlist">
+    <div class="col-12">
+      <h3>Playlist</h3>
+      <div *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </div>
+      <button
+        class="btn btn-success"
+        *ngIf="!isLoading && showSaveButton"
+        (click)="onSave()"
+      >
+        Save Playlist
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div
+      class="col-lg-8 col-xl-6 offset-lg-2 offset-xl-3"
+      *ngIf="playlist !== []"
+    >
+      <div class="list" *ngFor="let song of playlist; let i = index">
         <a class="list-group-item" style="cursor: pointer;">
           <img [src]="song.albumArt" [alt]="song.name" height="50px" />
           <span class="space"></span>
@@ -17,16 +34,23 @@
             >
           </span>
           <span class="btn-space"></span>
-          <button id="delete" class="btn" (click)="onDelete(song)">
+          <button
+            id="delete"
+            class="btn btn-created"
+            (click)="onDelete(song, i)"
+          >
             <img src="../../assets/x-circle.svg" />
           </button>
-          <button id="play" class="btn" (click)="onSelect(song)">
+          <button id="play" class="btn btn-created" (click)="onSelect(song)">
             <img src="../../assets/play-circle.svg" alt="" />
           </button>
         </a>
       </div>
     </div>
-    <div class="col-md-6 offset-md-3" *ngIf="playlist.length == 0">
+    <div
+      class="col-md-6 offset-md-3"
+      *ngIf="!isLoading && playlist.length == 0"
+    >
       <p>Playlist Empty!</p>
     </div>
   </div>

@@ -3,11 +3,7 @@ import { SongService } from "../shared/song.service";
 import { Song } from "../shared/song.model";
 import { StreamState } from "../shared/playing-state";
 import { NowPlayingService } from "../shared/nowPlaying.service";
-import {
-  ActivatedRouteSnapshot,
-  Params,
-  ActivatedRoute,
-} from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DataStorageService } from "../shared/dataStorage.service";
 import { PlaylistService } from "../shared/playlist/playlist.service";
 import { AuthService } from "../auth/auth.service";
@@ -19,13 +15,18 @@ import { Subscription } from "rxjs";
   styleUrls: ["./now-playing.component.scss"],
 })
 export class NowPlayingComponent implements OnInit, OnDestroy {
+  index = 0;
+  i = 2;
   songs: Song[] = [];
   currentFile: any = {};
+  private playlistId: string[];
+  private playlist: Song[] = [];
+  isPlaylist: boolean = true;
   state: StreamState;
-  isPlaylist = false;
-  private playlistSub: Subscription;
   private songsSub: Subscription;
+  private userSub: Subscription;
   songDetail: Song = {
+    _id: null,
     album: null,
     name: null,
     albumArt: null,
@@ -39,55 +40,46 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
     public songService: SongService,
     public playlistService: PlaylistService,
     public nowPlayingService: NowPlayingService,
-    private router: ActivatedRoute,
+    private router: Router,
     private dataStorage: DataStorageService,
     private authService: AuthService
-  ) {
-    // playlistService.getstream().subscribe((songs) => {
-    //   this.songs = songs;
-    //   // this.isPlaylist = true;
-    // });
-    // if (this.songs.length > 0) {
-    //   this.isPlaylist = true;
-    // }
-    // if (this.songs.length === 0) {
-    //   songService.getStream().subscribe((songs) => {
-    //     this.songs = songs;
-    //   });
-    // }
-    // this.nowPlayingService.getState().subscribe((state) => {
-    //   this.state = state;
-    // });
-  }
+  ) {}
 
   ngOnInit(): void {
-    // console.log('ngonit');
-    this.playlistSub = this.playlistService.getstream().subscribe((songs) => {
+    console.log(this.isPlaylist);
+    this.songsSub = this.songService.getStream().subscribe((songs: Song[]) => {
       this.songs = songs;
-      // this.isPlaylist = true;
+      if (this.songs.length === 0) {
+        this.router.navigate([""]);
+      }
     });
-    if (this.songs.length > 0) {
+    const playlistUrl = this.router.url.split("/")[2];
+    console.log(this.playlistId);
+    if (playlistUrl === "playlist") {
+      this.i = 3;
       this.isPlaylist = true;
-    }
-    if (this.songs.length === 0) {
-      this.songsSub = this.songService.getStream().subscribe((songs) => {
-        this.songs = songs;
+      this.playlistId = this.playlistService.getIdlist();
+      this.getSongs();
+      this.playlistService.playlistIdChanged.subscribe((playlistId) => {
+        this.playlistId = playlistId;
+        this.getSongs();
       });
+    } else {
+      this.isPlaylist = false;
     }
     this.nowPlayingService.getState().subscribe((state) => {
       this.state = state;
     });
-    this.dataStorage.FetchSongs().subscribe();
-    const index = +this.router.queryParams.subscribe((params) => {
-      if (params) {
-        for (var i in this.songs) {
-          if (this.songs[i].name == params.name) {
-            this.openSong(this.songs[i], parseInt(i));
-          }
-        }
+
+    const songRoute = this.router.url.split("/")[this.i];
+
+    for (var i in this.songs) {
+      if (this.songs[i]._id == this.router.url.split("/")[this.i]) {
+        this.openSong(this.songs[i], +i);
       }
-    });
-    this.authService.user.subscribe((user) => {
+    }
+
+    this.userSub = this.authService.authListener.subscribe((user) => {
       if (!user) {
         this.stop();
       }
@@ -95,24 +87,24 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
   }
 
   playStream(url) {
-    this.nowPlayingService.playStream(url).subscribe((events) => {
-      // console.log('listening');
-    });
+    this.nowPlayingService.playStream(url).subscribe((events) => {});
   }
 
   like() {
     this.songDetail.likes += 1;
     this.isLiked = true;
-    // console.log(this.songDetail);
-    // console.log(this.songDetail.likes);
-    this.songService.changeInSongs(this.songDetail);
-    this.dataStorage.SaveSongs();
+    this.dataStorage.UpdateSong(this.songDetail);
   }
 
   openSong(song, index) {
+    this.index = index;
+    this.isLiked = false;
     this.currentFile = { index, song };
     this.nowPlayingService.stop();
     this.songDetail = song;
+    if (this.authService.liked.includes(this.songDetail._id)) {
+      this.isLiked = true;
+    }
     this.playStream(song.url);
   }
 
@@ -147,8 +139,23 @@ export class NowPlayingComponent implements OnInit, OnDestroy {
     this.nowPlayingService.seekTo(change.value);
   }
 
+  getSongs() {
+    if (this.playlistId.length == 0) {
+      return;
+    }
+    for (var i = 0; i < this.playlistId.length; i++) {
+      this.songs.some((song) => {
+        if (song._id === this.playlistId[i]) {
+          this.playlist.push(song);
+        }
+      });
+    }
+    this.songs = this.playlist;
+    // this.isPlaylist = true;
+  }
+
   ngOnDestroy() {
-    this.playlistSub.unsubscribe();
     this.songsSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 }

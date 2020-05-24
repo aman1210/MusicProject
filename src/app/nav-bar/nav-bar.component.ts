@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AuthService } from "../auth/auth.service";
 import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-nav-bar",
@@ -12,20 +13,26 @@ export class NavBarComponent implements OnInit, OnDestroy {
   private userSub: Subscription;
   innerWidth: number;
   hide: boolean = false;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     if (innerWidth < 992) {
       this.hide = true;
     }
-    this.userSub = this.authService.user.subscribe((user) => {
-      this.isAuth = !user ? false : true;
+    this.isAuth = this.authService.getIsAuthenticated();
+    this.userSub = this.authService.authListener.subscribe((user) => {
+      this.isAuth = user;
     });
+    // this.userSub = this.authService.user.subscribe((user) => {
+    //   this.isAuth = !user ? false : true;
+    // });
+    console.log(this.router.url);
   }
 
   onLogout() {
-    this.authService.logout();
+    // this.authService.logout();
+    this.authService.logoutUser();
   }
 
   ngOnDestroy() {

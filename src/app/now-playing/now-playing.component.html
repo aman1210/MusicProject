@@ -4,9 +4,6 @@
       <mat-toolbar color="primary" class="main-toolbar">
         <span>Audio Player</span>
         <span class="spacer"></span>
-        <!-- <span class="toolbar-btn" *ngIf="!auth.authenticated" (click)="auth.login()">LOGIN </span>
-        <span class="toolbar-btn" *ngIf="auth.authenticated" (click)="auth.logout()">LOGOUT</span>
-        <span class="toolbar-btn" *ngIf="auth.authenticated" routerLink="/profile">PROFILE</span> -->
       </mat-toolbar>
 
       <div class="content">
@@ -69,14 +66,16 @@
             <button mat-button (click)="like()" *ngIf="!isLiked">
               <mat-icon mat-list-icon class="fav">favorite_border</mat-icon>
             </button>
-            <button mat-button [disabled]="!isLiked" *ngIf="isLiked">
+            <button mat-button [disabled]="isLiked" *ngIf="isLiked">
               <mat-icon mat-list-icon class="fav">favorite</mat-icon>
             </button>
           </mat-toolbar-row>
         </mat-toolbar>
         <div class="content">
           <mat-list color="primary">
-            <h3 mat-subheader>{{ isPlaylist ? "Playlist" : "Top Charts" }}</h3>
+            <h3 mat-subheader>
+              {{ isPlaylist ? "Playlist" : "Playing" }}
+            </h3>
             <mat-list-item
               *ngFor="let song of songs; let i = index"
               (click)="openSong(song, i)"

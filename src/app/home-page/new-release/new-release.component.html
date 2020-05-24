@@ -1,11 +1,13 @@
 <div class="container">
   <h4 align="center" id="newSongs">Newly Added</h4>
-  <div class="row">
+  <div *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="row" *ngIf="!isLoading">
     <div
       class="col-6 col-sm-4 col-md-4 col-lg-3"
       *ngFor="let song of songs | reverse | slice: 0:12; let i = index"
     >
-      <!--  -->
       <div class="card">
         <img
           src="{{ song.albumArt }}"
@@ -21,7 +23,6 @@
             <img src="../../../assets/plus-square.svg" />
           </button>
         </div>
-        <!-- <button></button> -->
         <h6 class="card-title" align="center">{{ song.name }}</h6>
       </div>
     </div>
