@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { DataStorageService } from "../shared/dataStorage.service";
 import { SongService } from "../shared/song.service";
 import { AuthService } from "../auth/auth.service";
+import { NowPlayingService } from "../shared/nowPlaying.service";
 
 @Component({
   selector: "app-playlist",
@@ -20,6 +21,7 @@ export class PlaylistComponent implements OnInit {
   constructor(
     private playlistService: PlaylistService,
     private dataStorageService: DataStorageService,
+    private nowPlayingService: NowPlayingService,
     private authService: AuthService,
     private songService: SongService,
     private router: Router
@@ -54,6 +56,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   onSelect(song: Song) {
+    this.nowPlayingService.setplaylist(true);
     this.router.navigate(["nowPlaying/playlist", song._id]);
   }
 

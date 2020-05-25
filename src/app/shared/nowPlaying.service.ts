@@ -1,32 +1,39 @@
-import { Injectable } from '@angular/core';
-import * as moment from 'moment';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { StreamState } from './playing-state';
+import { Injectable } from "@angular/core";
+import * as moment from "moment";
+import { Subject, Observable, BehaviorSubject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { StreamState } from "./playing-state";
+import { Song } from "./song.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class NowPlayingService {
   private stop$ = new Subject();
   private audioObj = new Audio();
+  findSong = new Subject<{ song: Song; index: number }>();
+  currentSong: Song = null;
+  currentIndex: number = null;
+  playlist: boolean;
+  isPlaylist = new Subject<boolean>();
   audioEvents = [
-    'ended',
-    'error',
-    'play',
-    'playing',
-    'pause',
-    'timeupdate',
-    'canplay',
-    'loadedmetadata',
-    'loadstart',
+    "ended",
+    "error",
+    "play",
+    "playing",
+    "pause",
+    "timeupdate",
+    "canplay",
+    "loadedmetadata",
+    "loadstart",
   ];
   private state: StreamState = {
     playing: false,
-    readableCurrentTime: '',
-    readableDuration: '',
+    readableCurrentTime: "",
+    readableDuration: "",
     duration: undefined,
     currentTime: undefined,
     canplay: false,
     error: false,
+    index: undefined,
   };
 
   private streamObservable(url) {
@@ -53,6 +60,31 @@ export class NowPlayingService {
     });
   }
 
+  getIsPlaying() {
+    return this.playlist;
+  }
+
+  setplaylist(bool: boolean) {
+    this.playlist = bool;
+    this.isPlaylist.next(this.playlist);
+  }
+
+  setSong(song: Song, index: number) {
+    this.currentSong = song;
+    this.currentIndex = index;
+    return this.findSong.next({
+      song: this.currentSong,
+      index: this.currentIndex,
+    });
+  }
+  getsong() {
+    return this.currentSong;
+  }
+
+  getIndex() {
+    return this.currentIndex;
+  }
+
   private addEvents(obj, events, handler) {
     events.forEach((event) => {
       obj.addEventListener(event, handler);
@@ -68,12 +100,13 @@ export class NowPlayingService {
   private resetState() {
     this.state = {
       playing: false,
-      readableCurrentTime: '',
-      readableDuration: '',
+      readableCurrentTime: "",
+      readableDuration: "",
       duration: undefined,
       currentTime: undefined,
       canplay: false,
       error: false,
+      index: undefined,
     };
   }
 
@@ -101,7 +134,7 @@ export class NowPlayingService {
     this.audioObj.currentTime = seconds;
   }
 
-  formatTime(time: number, format: string = 'HH:mm:ss') {
+  formatTime(time: number, format: string = "HH:mm:ss") {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
   }
@@ -111,24 +144,24 @@ export class NowPlayingService {
 
   private updateStateEvents(event: Event): void {
     switch (event.type) {
-      case 'canplay':
+      case "canplay":
         this.state.duration = this.audioObj.duration;
         this.state.readableDuration = this.formatTime(this.state.duration);
         this.state.canplay = true;
         break;
-      case 'playing':
+      case "playing":
         this.state.playing = true;
         break;
-      case 'pause':
+      case "pause":
         this.state.playing = false;
         break;
-      case 'timeupdate':
+      case "timeupdate":
         this.state.currentTime = this.audioObj.currentTime;
         this.state.readableCurrentTime = this.formatTime(
           this.state.currentTime
         );
         break;
-      case 'error':
+      case "error":
         this.resetState();
         this.state.error = true;
         break;

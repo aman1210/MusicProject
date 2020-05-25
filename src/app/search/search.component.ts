@@ -5,6 +5,7 @@ import { SongService } from "../shared/song.service";
 import { ArtistService } from "../shared/artist/artist.service";
 import { Artist } from "../shared/artist/artist.model";
 import { Router } from "@angular/router";
+import { NowPlayingService } from "../shared/nowPlaying.service";
 
 @Component({
   selector: "app-search",
@@ -21,6 +22,7 @@ export class SearchComponent implements OnInit {
   constructor(
     private songService: SongService,
     private artistService: ArtistService,
+    private nowPlayingService: NowPlayingService,
     private router: Router
   ) {}
 
@@ -56,7 +58,8 @@ export class SearchComponent implements OnInit {
   }
 
   onSongClick(song: Song) {
-    this.router.navigate(["/nowPlaying"], { queryParams: { name: song.name } });
+    this.nowPlayingService.setplaylist(false);
+    this.router.navigate(["nowPlaying", song._id]);
   }
 
   onArtistClick(artist: Artist) {

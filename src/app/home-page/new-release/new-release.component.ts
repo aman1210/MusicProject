@@ -3,8 +3,9 @@ import { Router } from "@angular/router";
 import { Song } from "src/app/shared/song.model";
 import { SongService } from "src/app/shared/song.service";
 import { Subscription } from "rxjs";
-import { DataStorageService } from "src/app/shared/dataStorage.service";
+
 import { PlaylistService } from "src/app/shared/playlist/playlist.service";
+import { NowPlayingService } from "src/app/shared/nowPlaying.service";
 
 @Component({
   selector: "app-new-release",
@@ -19,13 +20,16 @@ export class NewReleaseComponent implements OnInit, OnDestroy {
   constructor(
     private songService: SongService,
     private router: Router,
-    private dataStorageService: DataStorageService,
-    private playlistService: PlaylistService
+    private playlistService: PlaylistService,
+    private nowPlayingService: NowPlayingService
   ) {}
 
   ngOnInit() {
     this.isLoading = true;
     this.songs = this.songService.getSongs();
+    if (this.songs.length != 0) {
+      this.isLoading = false;
+    }
     this.sChanged = this.songService.songsChanged.subscribe((songs: Song[]) => {
       this.songs = this.songService.getSongs();
       this.isLoading = false;
@@ -33,6 +37,7 @@ export class NewReleaseComponent implements OnInit, OnDestroy {
   }
 
   onSelect(song: Song) {
+    this.nowPlayingService.setplaylist(false);
     this.router.navigate(["nowPlaying", song._id]);
   }
 

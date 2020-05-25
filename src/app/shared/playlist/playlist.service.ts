@@ -25,6 +25,9 @@ export class PlaylistService {
   }
 
   addSong(song: Song) {
+    if (this.playlistSongsId.includes(song._id)) {
+      return;
+    }
     this.playlistSongsId.push(song._id);
     this.playlistIdChanged.next(this.playlistSongsId);
   }

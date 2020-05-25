@@ -43,7 +43,6 @@ export class FavoriteComponent implements OnInit, OnDestroy {
         this.getSongs();
       }
     );
-    // console.log(this.songs);
   }
 
   onSelect(song: Song) {

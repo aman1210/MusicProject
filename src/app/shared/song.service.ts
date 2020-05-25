@@ -9,12 +9,10 @@ export class SongService {
 
   setSongs(songs: Song[]) {
     this.songs = songs;
-    // console.log(this.songs.slice());
     this.songsChanged.next(this.songs.slice());
   }
 
   getSongs() {
-    // console.log(this.songs);
     return this.songs.slice();
   }
 

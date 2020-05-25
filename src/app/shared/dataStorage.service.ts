@@ -5,9 +5,8 @@ import { tap } from "rxjs/operators";
 import { Song } from "./song.model";
 import { ArtistService } from "./artist/artist.service";
 import { Artist } from "./artist/artist.model";
-import { stringify } from "querystring";
+
 import { AuthService } from "../auth/auth.service";
-import { PlaylistService } from "./playlist/playlist.service";
 
 @Injectable()
 export class DataStorageService {
@@ -15,8 +14,7 @@ export class DataStorageService {
     private http: HttpClient,
     private songService: SongService,
     private authService: AuthService,
-    private artistService: ArtistService,
-    private playlistService: PlaylistService
+    private artistService: ArtistService
   ) {}
 
   SaveSongs(song) {
@@ -25,17 +23,30 @@ export class DataStorageService {
       .subscribe((response) => {});
   }
 
-  UpdateSong(song: Song) {
-    if (!this.authService.liked.includes(song._id)) {
-      this.http
-        .put<{ message: string; liked: string[] }>(
-          "http://localhost:3000/api/songs/" + song._id,
-          song
-        )
-        .subscribe((resData) => {
-          this.authService.updateliked(resData.liked);
-        });
+  UpdateSong(song: Song, liked: boolean) {
+    const likes = this.authService.liked;
+    if (liked) {
+      if (!likes.includes(song._id)) {
+        likes.push(song._id);
+      }
+    } else {
+      for (var i in likes) {
+        if (likes[i] == song._id) {
+          likes.splice(+i, 1);
+        }
+      }
     }
+    console.log(likes);
+    const data = { song, likes };
+    this.http
+      .put<{ message: string; liked: string[] }>(
+        "http://localhost:3000/api/songs/" + song._id,
+        data
+      )
+      .subscribe((resData) => {
+        console.log(resData);
+        this.authService.updateliked(resData.liked);
+      });
   }
 
   FetchSongs() {
@@ -45,7 +56,6 @@ export class DataStorageService {
       )
       .pipe(
         tap((songs) => {
-          // console.log(songs.songs);
           this.songService.setSongs(songs.songs);
         })
       );
@@ -61,9 +71,7 @@ export class DataStorageService {
   SaveArtistDetail(artist: Artist) {
     this.http
       .put("http://localhost:3000/api/artists/" + artist._id, artist)
-      .subscribe((resData) => {
-        console.log(resData);
-      });
+      .subscribe((resData) => {});
   }
 
   FetchArtists() {
@@ -79,19 +87,14 @@ export class DataStorageService {
   }
 
   FetchOneArtist(id: string) {
-    console.log(id);
-    return this.http.get("http://localhost:3000/api/artists/" + id).pipe(
-      tap((resData) => {
-        console.log(resData);
-      })
-    );
+    return this.http
+      .get("http://localhost:3000/api/artists/" + id)
+      .pipe(tap((resData) => {}));
   }
 
   SavePlaylist(playlist: string[]) {
     this.http
       .put("http://localhost:3000/api/users/playlist", playlist)
-      .subscribe((resData) => {
-        console.log(resData);
-      });
+      .subscribe((resData) => {});
   }
 }

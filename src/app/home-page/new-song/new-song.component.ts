@@ -33,9 +33,7 @@ export class NewSongComponent implements OnInit {
     };
     this.songService.addSong(newSong);
     this.dataStorageService.SaveSongs(newSong);
-    this.dataStorageService.FetchArtists().subscribe((resData) => {
-      // console.log(resData);
-    });
+    this.dataStorageService.FetchArtists().subscribe((resData) => {});
     this.router.navigate([""]);
     window.location.reload();
   }

@@ -5,3 +5,7 @@
   margin-right: 0px;
   max-width: 97%;
 }
+
+.hori {
+  overflow-x: hidden;
+}

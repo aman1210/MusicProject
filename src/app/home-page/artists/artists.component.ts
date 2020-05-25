@@ -4,7 +4,7 @@ import { Artist } from "src/app/shared/artist/artist.model";
 import { Subscription } from "rxjs";
 import { Song } from "src/app/shared/song.model";
 import { SongService } from "src/app/shared/song.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-artists",
@@ -20,8 +20,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   constructor(
     private artistService: ArtistService,
     private songService: SongService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {
     this.songs = this.songService.getSongs();
     this.sChanged = this.songService.songsChanged.subscribe((songs: Song[]) => {

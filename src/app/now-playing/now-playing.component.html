@@ -30,7 +30,6 @@
               [max]="state?.duration"
               step="1"
               [value]="state?.currentTime"
-              [disabled]="state?.error || currentFile.index === undefined"
               (input)="onSliderChangeEnd($event)"
             >
             </mat-slider>
@@ -66,7 +65,7 @@
             <button mat-button (click)="like()" *ngIf="!isLiked">
               <mat-icon mat-list-icon class="fav">favorite_border</mat-icon>
             </button>
-            <button mat-button [disabled]="isLiked" *ngIf="isLiked">
+            <button mat-button (click)="dislike()" *ngIf="isLiked">
               <mat-icon mat-list-icon class="fav">favorite</mat-icon>
             </button>
           </mat-toolbar-row>

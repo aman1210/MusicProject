@@ -35,18 +35,18 @@ router.post("", (req, res, next) => {
 
 router.put("/:id", authStatus, (req, res, next) => {
   const song = new Song({
-    _id: req.body._id,
-    name: req.body.name,
-    album: req.body.album,
-    albumArt: req.body.albumArt,
-    artist: req.body.artist,
-    url: req.body.url,
-    likes: req.body.likes,
+    _id: req.body.song._id,
+    name: req.body.song.name,
+    album: req.body.song.album,
+    albumArt: req.body.song.albumArt,
+    artist: req.body.song.artist,
+    url: req.body.song.url,
+    likes: req.body.song.likes,
   });
   Song.updateOne({ _id: req.params.id }, song).then((result) => {
     let resultSave = result;
     User.findOne({ _id: req.userData.userId }, (err, artist) => {
-      artist.liked.push(song);
+      artist.liked = req.body.likes;
       artist.save();
       let liked = artist.liked;
       if (resultSave.n > 0) {

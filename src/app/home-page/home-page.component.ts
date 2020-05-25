@@ -11,6 +11,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   innerWidth: number;
   hide: boolean = false;
   artistSubs: Subscription;
+  songsSubs: Subscription;
   constructor(private dataStorage: DataStorageService) {}
 
   ngOnInit() {
@@ -18,12 +19,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
     if (innerWidth < 992) {
       this.hide = true;
     }
-    this.dataStorage.FetchSongs().subscribe();
+    this.songsSubs = this.dataStorage.FetchSongs().subscribe();
     this.artistSubs = this.dataStorage.FetchArtists().subscribe();
   }
 
   ngOnDestroy() {
-    // console.log("destroying");
-    // this.artistSubs.unsubscribe();
+    this.artistSubs.unsubscribe();
+    this.songsSubs.unsubscribe();
   }
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ArtistService } from "src/app/shared/artist/artist.service";
 import { Artist } from "src/app/shared/artist/artist.model";
 import { Song } from "src/app/shared/song.model";
 import { NgForm } from "@angular/forms";
 import { DataStorageService } from "src/app/shared/dataStorage.service";
+import { NowPlayingService } from "src/app/shared/nowPlaying.service";
+import { PlaylistService } from "src/app/shared/playlist/playlist.service";
 
 @Component({
   selector: "app-artist-details",
@@ -20,8 +21,9 @@ export class ArtistDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private artistService: ArtistService,
-    private dataStorage: DataStorageService
+    private nowPlayingService: NowPlayingService,
+    private dataStorage: DataStorageService,
+    private playlistService: PlaylistService
   ) {}
 
   ngOnInit() {
@@ -53,8 +55,14 @@ export class ArtistDetailsComponent implements OnInit {
   }
 
   onSelect(song) {
-    this.router.navigate(["nowPlaying"], { queryParams: { name: song.name } });
+    this.nowPlayingService.setplaylist(false);
+    this.router.navigate(["nowPlaying", song._id]);
   }
+
+  onPlaylist(song) {
+    this.playlistService.addSong(song);
+  }
+
   onSubmit(submittedForm: NgForm) {
     const artistImage = submittedForm.value.url;
     this.FoundArtist.artistImage = artistImage;
