@@ -2,7 +2,6 @@
 Hands-on project with Angular and firebase to create a music website
 
 ## How to use
--------------
 
 Run "npm install" inside this project folder to install all dependencies.
 
@@ -14,7 +13,6 @@ Feel free to compare it with your project code to spot any errors you might have
 
 
 ## How to upgrade the CLI
-------------------------
 
 Run the below commands - only use "sudo" on Mac/ Linux.
 
