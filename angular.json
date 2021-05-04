@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "MusicProject"
+  "defaultProject": "MusicProject",
+  "cli": {
+    "analytics": false
+  }
 }

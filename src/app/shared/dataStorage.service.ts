@@ -55,7 +55,7 @@ export class DataStorageService {
       .get<{ message: string; songs: Song[] }>(BACKEND_URL + "/songs")
       .pipe(
         tap((songs) => {
-          this.songService.setSongs(songs.songs);
+          this.songService.setSongs(songs['songs']);
         })
       );
   }
@@ -71,7 +71,7 @@ export class DataStorageService {
       .get<{ message: string; artist: Artist[] }>(BACKEND_URL + "/artists")
       .pipe(
         tap((resData) => {
-          this.artistService.setArtists(resData.artist);
+          this.artistService.setArtists(resData['artist']);
         })
       );
   }
