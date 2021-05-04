@@ -2,9 +2,9 @@
 Hands-on project with Angular and firebase to create a music website
 
 ## Screenshots
-<img height="600px" src="screenshots/1.png">&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="600px" src="screenshots/2.png">&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="600px" src="screenshots/3.png">
+<img src="screenshots/1.png">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="screenshots/2.png">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="screenshots/3.png">
 
 ## How to use
 
