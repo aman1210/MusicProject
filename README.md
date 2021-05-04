@@ -1,6 +1,11 @@
 # MusicProject
 Hands-on project with Angular and firebase to create a music website
 
+## Screenshots
+<img height="600px" src="screenshots/1.jpg">&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="600px" src="screenshots/2.jpg">&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="600px" src="screenshots/3.jpg">
+
 ## How to use
 
 Run "npm install" inside this project folder to install all dependencies.
