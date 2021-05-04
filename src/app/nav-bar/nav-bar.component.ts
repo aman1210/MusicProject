@@ -28,6 +28,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logoutUser();
+    window.location.reload();
   }
 
   ngOnDestroy() {

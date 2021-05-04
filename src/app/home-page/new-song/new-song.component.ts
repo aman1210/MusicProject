@@ -17,9 +17,9 @@ export class NewSongComponent implements OnInit {
     private songService: SongService,
     private router: Router,
     private dataStorageService: DataStorageService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit(submittedForm: NgForm) {
     const newSong: Song = {
@@ -33,8 +33,8 @@ export class NewSongComponent implements OnInit {
     };
     this.songService.addSong(newSong);
     this.dataStorageService.SaveSongs(newSong);
-    this.dataStorageService.FetchArtists().subscribe((resData) => {});
+    this.dataStorageService.FetchArtists().subscribe((resData) => { });
+    // window.location.reload();
     this.router.navigate([""]);
-    window.location.reload();
   }
 }

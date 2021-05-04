@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
+import { environment } from "../../environments/environment";
+
+const BACKEND_URL = environment.apiUrl + "/users/";
 
 export interface AuthResponseData {
   idToken: string;
@@ -62,9 +65,13 @@ export class AuthService {
       email: email,
       password: password,
     };
-    this.http.post("http://localhost:3000/api/users/signup", user).subscribe(
+    this.http.post(BACKEND_URL + "signup", user).subscribe(
       (resData) => {
         this.errorLis.next("");
+        this.playlist = [];
+        this.liked = [];
+        this.playlistListener.next(this.playlist);
+        this.likedListener.next(this.liked);
         this.loginUser(email, password);
       },
       (error) => {
@@ -85,7 +92,7 @@ export class AuthService {
         userId: string;
         liked: string[];
         playlist: string[];
-      }>("http://localhost:3000/api/users/login", user)
+      }>(BACKEND_URL + "login", user)
       .subscribe(
         (resData) => {
           this.errorLis.next("");
@@ -96,6 +103,8 @@ export class AuthService {
             const expiresIn = resData.expiresIn * 3600;
             this.liked = resData.liked;
             this.playlist = resData.playlist;
+            this.playlistListener.next(this.playlist);
+            this.likedListener.next(this.liked);
             this.isAuthenticated = true;
             this.authListener.next(true);
             this.setAuthTimer(expiresIn);

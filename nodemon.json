@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGO_ATLAS_PASSWORD": "17KwwEYlCZl6Hjzj",
+    "JWT_KEY": "this_is_the_sceret_key_by_@man_sriv@stava"
+  }
+}

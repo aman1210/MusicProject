@@ -24,6 +24,9 @@ export class AppComponent implements OnInit {
     this.dataStorage.FetchSongs().subscribe();
     this.dataStorage.FetchArtists().subscribe();
     this.playlistService.setSongs();
+    this.authService.playlistListener.subscribe(() => {
+      this.playlistService.setSongs();
+    });
     // this.dataStorage.FetchSongs().subscribe();
   }
 }

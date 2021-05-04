@@ -5,8 +5,11 @@ import { tap } from "rxjs/operators";
 import { Song } from "./song.model";
 import { ArtistService } from "./artist/artist.service";
 import { Artist } from "./artist/artist.model";
+import { environment } from "../../environments/environment";
 
 import { AuthService } from "../auth/auth.service";
+
+const BACKEND_URL = environment.apiUrl;
 
 @Injectable()
 export class DataStorageService {
@@ -18,9 +21,7 @@ export class DataStorageService {
   ) {}
 
   SaveSongs(song) {
-    this.http
-      .post("http://localhost:3000/api/songs", song)
-      .subscribe((response) => {});
+    this.http.post(BACKEND_URL + "/songs", song).subscribe((response) => {});
   }
 
   UpdateSong(song: Song, liked: boolean) {
@@ -40,7 +41,7 @@ export class DataStorageService {
     const data = { song, likes };
     this.http
       .put<{ message: string; liked: string[] }>(
-        "http://localhost:3000/api/songs/" + song._id,
+        BACKEND_URL + "/songs/" + song._id,
         data
       )
       .subscribe((resData) => {
@@ -51,9 +52,7 @@ export class DataStorageService {
 
   FetchSongs() {
     return this.http
-      .get<{ message: string; songs: Song[] }>(
-        "http://localhost:3000/api/songs"
-      )
+      .get<{ message: string; songs: Song[] }>(BACKEND_URL + "/songs")
       .pipe(
         tap((songs) => {
           this.songService.setSongs(songs.songs);
@@ -61,24 +60,15 @@ export class DataStorageService {
       );
   }
 
-  SaveArtists() {
-    const artists = this.artistService.getArtists();
-    this.http
-      .put("https://musicproject-7079f.firebaseio.com/artist.json", artists)
-      .subscribe((response) => {});
-  }
-
   SaveArtistDetail(artist: Artist) {
     this.http
-      .put("http://localhost:3000/api/artists/" + artist._id, artist)
+      .put(BACKEND_URL + "/artists/" + artist._id, artist)
       .subscribe((resData) => {});
   }
 
   FetchArtists() {
     return this.http
-      .get<{ message: string; artist: Artist[] }>(
-        "http://localhost:3000/api/artists"
-      )
+      .get<{ message: string; artist: Artist[] }>(BACKEND_URL + "/artists")
       .pipe(
         tap((resData) => {
           this.artistService.setArtists(resData.artist);
@@ -88,13 +78,13 @@ export class DataStorageService {
 
   FetchOneArtist(id: string) {
     return this.http
-      .get("http://localhost:3000/api/artists/" + id)
+      .get(BACKEND_URL + "/artists/" + id)
       .pipe(tap((resData) => {}));
   }
 
   SavePlaylist(playlist: string[]) {
     this.http
-      .put("http://localhost:3000/api/users/playlist", playlist)
+      .put(BACKEND_URL + "/users/playlist", playlist)
       .subscribe((resData) => {});
   }
 }
